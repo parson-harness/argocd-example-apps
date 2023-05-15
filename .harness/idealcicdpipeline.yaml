@@ -24,6 +24,13 @@ pipeline:
                     repo: parsontodd/grafana
                     tags:
                       - v<+pipeline.sequenceId>
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: echo "hello world"
         name: build and push image
         identifier: build_and_push_image
     - stage:
