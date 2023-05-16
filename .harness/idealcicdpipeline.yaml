@@ -31,10 +31,10 @@ pipeline:
                   spec:
                     shell: Sh
                     command: echo "hello world"
-        name: build and push image
+        name: Build and Push Image
         identifier: build_and_push_image
     - stage:
-        name: Deploy K8s App
+        name: Deploy to Dev
         identifier: Deploy_K8s_App
         description: ""
         type: Deployment
@@ -81,7 +81,32 @@ pipeline:
               action:
                 type: StageRollback
     - stage:
-        name: Prod Deploy
+        name: Prod Approval Gate
+        identifier: Prod_Approval_Gate
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Approval
+                  identifier: Approval
+                  type: HarnessApproval
+                  timeout: 1d
+                  spec:
+                    approvalMessage: |-
+                      Please review the following information
+                      and approve the pipeline progression
+                    includePipelineExecutionHistory: true
+                    approvers:
+                      minimumCount: 1
+                      disallowPipelineExecutor: false
+                      userGroups:
+                        - account._account_all_users
+                    approverInputs: []
+        tags: {}
+    - stage:
+        name: Deploy to Prod
         identifier: Prod_Deploy
         description: ""
         type: Deployment
