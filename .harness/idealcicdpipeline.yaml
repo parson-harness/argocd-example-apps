@@ -189,7 +189,7 @@ pipeline:
               action:
                 type: StageRollback
   identifier: idealcicdpipeline
-  name: ideal-cicd-pipeline
+  name: standard-cicd-pipeline
   properties:
     ci:
       codebase:
